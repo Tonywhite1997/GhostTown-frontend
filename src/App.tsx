@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AuthProvider } from "./contexts/AuthContext";
+import LoginLayout from "./layouts/Login";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
+const queryClient = new QueryClient();
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <ToastContainer theme="dark" />
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<LoginLayout children={<Login />} />} />
+            <Route
+              path="/login"
+              element={<LoginLayout children={<Login />} />}
+            />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </AuthProvider>
+      </QueryClientProvider>
+    </Router>
   );
 }
-
 export default App;

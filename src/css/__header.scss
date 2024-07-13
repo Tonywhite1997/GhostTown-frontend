@@ -1,0 +1,14 @@
+.header {
+    height: 10vh;
+    background-color: #32a852;
+    color: white;
+    padding: 0 2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header_logo {
+        font-size: 1.25rem;
+        font-weight: 300;
+    }
+}

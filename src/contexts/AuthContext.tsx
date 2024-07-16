@@ -26,6 +26,14 @@ export function AuthProvider({ children }: { children: react.ReactNode }) {
       const { data } = await axios.get(`${BASE_URL}/auth/me`);
       setUser(data);
       setIsLoading(false);
+
+      if (
+        location.pathname !== "/auth/signup" &&
+        location.pathname !== "/auth/login"
+      ) {
+        return navigate(location.pathname);
+      }
+
       navigate("/feed");
     } catch (err: any) {
       setIsLoading(false);

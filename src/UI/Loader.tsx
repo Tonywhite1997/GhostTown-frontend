@@ -6,8 +6,8 @@ const override: CSSProperties = {
   margin: "0 auto",
 };
 
-function Loader() {
-  return <ClipLoader cssOverride={override} size={20} />;
+function Loader({ number = 20 }: { number?: number }) {
+  return <ClipLoader cssOverride={override} size={number} color="#32a852" />;
 }
 
 export default Loader;

@@ -1,9 +1,10 @@
 import react, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContextType, UserType } from "../types/types";
-import Loader from "../UI/Loader";
+import { redirectToLogin } from "../functions/generalfunction";
+import LoaderPage from "../UI/LoaderPage";
 
 export const BASE_URL =
   process.env.REACT_APP_ENV === "development"
@@ -17,6 +18,7 @@ export function AuthProvider({ children }: { children: react.ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   async function getMe() {
     setIsLoading(true);
@@ -24,10 +26,12 @@ export function AuthProvider({ children }: { children: react.ReactNode }) {
       const { data } = await axios.get(`${BASE_URL}/auth/me`);
       setUser(data);
       setIsLoading(false);
-      navigate("/signup");
+      navigate("/feed");
     } catch (err: any) {
       setIsLoading(false);
-      toast(err?.response?.data?.message);
+      location.pathname !== "/auth/signup" &&
+        toast(err?.response?.data?.message);
+      redirectToLogin(err, navigate);
     }
   }
 
@@ -36,7 +40,7 @@ export function AuthProvider({ children }: { children: react.ReactNode }) {
   }, []);
 
   if (isLoading) {
-    return <Loader />;
+    return <LoaderPage />;
   }
 
   return (

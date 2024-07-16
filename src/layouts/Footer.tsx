@@ -1,11 +1,5 @@
-import React from "react";
-
 function Footer() {
-  return (
-    <footer className="footer">
-      <p>© 2024 RandomChat</p>
-    </footer>
-  );
+  return <footer className="footer"></footer>;
 }
 
 export default Footer;

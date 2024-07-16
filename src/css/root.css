@@ -2,6 +2,8 @@
 @import url("./__login.scss");
 @import url("./__header.scss");
 @import url("./__footer.scss");
+@import url("./__signup.scss");
+@import url("./__feed.scss");
 @import url("./__variables.scss");
 * {
   margin: 0px;
@@ -11,7 +13,6 @@
 }
 
 body {
-  height: 100vh;
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-style: normal;

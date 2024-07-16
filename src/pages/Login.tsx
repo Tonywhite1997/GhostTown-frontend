@@ -6,6 +6,7 @@ import { useShowPassword } from "../functions/generalfunction";
 import { useLogin } from "../apis/useLogin";
 import { LoginDataType } from "../types/types";
 import Loader from "../UI/Loader";
+import Input from "../UI/Input";
 
 function Login() {
   const [loginData, setLoginData] = useState<LoginDataType>({
@@ -31,32 +32,28 @@ function Login() {
       <form className="login-form">
         <label className="login-form_label">
           Username
-          <input
-            placeholder="johndoe"
+          <Input
             name="username"
-            onChange={(e) => {
-              getLoginData(e);
-            }}
+            placeholder="johndoe"
             value={loginData.username}
+            onChange={getLoginData}
           />
         </label>
 
         <label className="login-form_label">
           Password
           <div className="password-container">
-            <input
-              type={seePassword ? "text" : "password"}
+            <Input
+              name="password"
               placeholder="password"
               value={loginData.password}
-              name="password"
-              onChange={(e) => {
-                getLoginData(e);
-              }}
+              type={seePassword ? "text" : "password"}
+              onChange={getLoginData}
             />
-            {!seePassword ? (
-              <FaEyeSlash onClick={handleShowPass} className="eye" />
-            ) : (
+            {seePassword ? (
               <FaEye onClick={handleShowPass} className="eye" />
+            ) : (
+              <FaEyeSlash onClick={handleShowPass} className="eye" />
             )}
           </div>
         </label>
@@ -67,12 +64,12 @@ function Login() {
           </button>
         </div>
 
-        <Link className="forgotten-password" to="/forgotten-password">
+        <Link className="forgotten-password" to="/auth/forgotten-password">
           Forgotten password?
         </Link>
         <hr className="divider" />
         <div className="create-new-account">
-          <Link to="/signup" className="create-new-account-btn">
+          <Link to="/auth/signup" className="create-new-account-btn">
             Create new account
           </Link>
         </div>

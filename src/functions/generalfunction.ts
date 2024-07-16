@@ -7,3 +7,11 @@ export function useShowPassword() {
   }
   return { handleShowPass, seePassword };
 }
+
+export function redirectToLogin(err: any, navigate: any) {
+  const { message } = err?.response?.data;
+
+  if (message.toLowerCase() === "unauthorized") {
+    navigate("/auth/login");
+  }
+}

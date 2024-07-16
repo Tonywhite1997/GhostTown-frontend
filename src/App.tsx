@@ -4,8 +4,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./contexts/AuthContext";
 import LoginLayout from "./layouts/Login";
+import SignupLayout from "./layouts/Signup";
+import FeedLayout from "./layouts/Feed";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Feed from "./pages/Feed";
 
 const queryClient = new QueryClient();
 function App() {
@@ -17,10 +20,14 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginLayout children={<Login />} />} />
             <Route
-              path="/login"
+              path="/auth/login"
               element={<LoginLayout children={<Login />} />}
             />
-            <Route path="/signup" element={<Signup />} />
+            <Route
+              path="/auth/signup"
+              element={<SignupLayout children={<Signup />} />}
+            />
+            <Route path="/feed" element={<FeedLayout children={<Feed />} />} />
           </Routes>
         </AuthProvider>
       </QueryClientProvider>

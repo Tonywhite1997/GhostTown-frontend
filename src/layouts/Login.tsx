@@ -1,7 +1,6 @@
-import React from "react";
-import Header from "./Header";
+import { ReactNode } from "react";
 
-function Login({ children }: { children: React.ReactNode }) {
+function Login({ children }: { children: ReactNode }) {
   return <div>{children}</div>;
 }
 

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import react, { Dispatch, ChangeEvent, SetStateAction } from "react";
 
 export type LoginDataType = {
   username: string;
@@ -16,4 +16,20 @@ export type AuthContextType = {
   setUser: Dispatch<SetStateAction<UserType | null>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+};
+
+export type InputType = {
+  type?: string;
+  value: string;
+  placeholder?: string;
+  checked?: boolean;
+  name: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+export type SignUpDataType = {
+  username: string;
+  email: string;
+  gender: string;
+  password: string;
 };

@@ -1,9 +1,10 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useState, useContext } from "react";
+import { useState, useContext, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { authContext } from "../contexts/AuthContext";
 import { AuthContextType } from "../types/types";
+import { BASE_URL } from "../contexts/AuthContext";
 
 export function useLogin({
   username,
@@ -24,11 +25,15 @@ export function useLogin({
 
   const navigate = useNavigate();
 
-  async function handleLogin() {
-    setIsLoading(true);
+  async function handleLogin(e: FormEvent) {
+    e.preventDefault();
+    if (!username.trim() || !password.trim()) {
+      return toast("username and password required");
+    }
     try {
+      setIsLoading(true);
       const { data } = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${BASE_URL}/auth/login`,
         {
           username,
           password,
@@ -42,8 +47,7 @@ export function useLogin({
 
       setUser(data);
       setIsLoading(false);
-      toast("logged in successfully");
-      navigate("/signup");
+      navigate("/feed");
     } catch (err: any) {
       toast(err?.response?.data?.message);
       setIsLoading(false);

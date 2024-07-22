@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import Footer from "./Footer";
 import Header from "./Header";
 
 function Feed({ children }: { children: ReactNode }) {

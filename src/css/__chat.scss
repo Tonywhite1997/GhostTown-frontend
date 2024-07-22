@@ -1,0 +1,150 @@
+.chat {
+    height: 100vh;
+    padding: 0 2em;
+    padding-bottom: .3em;
+    padding-top: calc(100px + 2em);
+    display: flex;
+    gap: 1em;
+    overflow-y: scroll;
+
+    .old-chats {
+        width: 250px;
+        padding: .2em .5em;
+        background-color: rgb(249, 249, 249);
+        border-right: 1px solid rgb(231, 229, 229);
+        border-radius: .5em;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            color: white;
+        }
+
+        .recipient {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            align-items: center;
+            gap: .5em;
+
+            .profile-pic {
+                width: 40px;
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            p {
+                font-size: .8rem;
+            }
+        }
+    }
+
+    .inbox {
+        width: calc(100% - 250px);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+
+        .no-message {
+            text-align: center;
+        }
+
+        .recipient-div {
+            display: flex;
+            align-items: center;
+            gap: .5em;
+
+            .profile-pic {
+                width: 40px;
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            p {
+                font-size: .8rem;
+            }
+        }
+
+        .chat-box {
+            display: flex;
+            flex-direction: column;
+            overflow-y: scroll;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar {
+                color: white;
+            }
+
+            .message-box {
+                padding: 10px;
+                margin: 5px;
+                border-radius: 10px;
+                max-width: 60%;
+
+            }
+
+            .left {
+                align-self: flex-start;
+                background-color: #e0e0e0;
+            }
+
+            .right {
+                align-self: flex-end;
+                background-color: #32a852;
+                color: white;
+            }
+        }
+
+        .input-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            gap: .2em;
+
+            .textarea-label {
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+
+                textarea {
+                    width: 100%;
+                    min-height: 50px;
+                    padding: .5em .5em;
+                    border-radius: .5em;
+                    resize: none;
+                    font-size: 1rem;
+
+                    &::-webkit-scrollbar {
+                        color: white;
+                    }
+
+                }
+            }
+
+            .send-icon {
+                border: none;
+                cursor: pointer;
+                height: 40px;
+                width: 40px;
+                border-radius: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #32a852;
+                margin-bottom: .5em;
+
+                .icon {
+                    width: 40px;
+                    height: 20px;
+                    color: white;
+                }
+            }
+        }
+    }
+}

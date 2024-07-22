@@ -11,6 +11,13 @@ export type UserType = {
   username: string;
 };
 
+export type MessageType = {
+  body: string;
+  created_at: string;
+  id: string;
+  authorID: string;
+};
+
 export type AuthContextType = {
   user: UserType | null;
   setUser: Dispatch<SetStateAction<UserType | null>>;

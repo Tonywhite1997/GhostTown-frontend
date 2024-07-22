@@ -39,6 +39,11 @@ function App() {
             <Route path="/chats" element={<ChatLayout children={<Chat />} />} />
 
             <Route
+              path="/chats/:id"
+              element={<ChatLayout children={<Chat />} />}
+            />
+
+            <Route
               path="/groups"
               element={<GroupLayout children={<Group />} />}
             />

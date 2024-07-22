@@ -7,14 +7,7 @@ import Loader from "../UI/Loader";
 
 function Feed() {
   const [isImageLoading, setIsImageLoadng] = useState(true);
-  const {
-    feed: feeds,
-    setOffset,
-    getFeed,
-    isLoading,
-    error,
-    setError,
-  } = useFeed();
+  const { feed: feeds, getFeed, isLoading, error, setError } = useFeed();
 
   const auth = useContext(authContext);
 
@@ -36,7 +29,6 @@ function Feed() {
     setError("");
     try {
       getFeed();
-      // setOffset((prevOffset) => (prevOffset += 20));
     } catch (err) {
       setError("Error fetching more feed");
     }
@@ -48,7 +40,7 @@ function Feed() {
         {feeds.map((feed) => {
           return (
             <Link
-              to={`/chat/user?id=${feed.id}`}
+              to={`/chats/${feed.id}`}
               key={feed.id}
               className="feed-container"
             >

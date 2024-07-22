@@ -4,6 +4,7 @@
 @import url("./__footer.scss");
 @import url("./__signup.scss");
 @import url("./__feed.scss");
+@import url("./__chat.scss");
 @import url("./__variables.scss");
 * {
   margin: 0px;

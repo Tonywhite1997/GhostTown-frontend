@@ -119,7 +119,7 @@ function Chat() {
           <button
             className="send-icon"
             onClick={() => {
-              sendMessage(id, messageBody, setMessageBody, setMessages);
+              id && sendMessage(id, messageBody, setMessageBody, setMessages);
             }}
             disabled={isSendingMessage}
           >

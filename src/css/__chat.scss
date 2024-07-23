@@ -73,32 +73,44 @@
         .chat-box {
             display: flex;
             flex-direction: column;
-            overflow-y: scroll;
+            height: 100%;
             overflow-y: scroll;
 
             &::-webkit-scrollbar {
                 color: white;
             }
 
-            .message-box {
-                padding: 10px;
-                margin: 5px;
-                border-radius: 10px;
-                max-width: 60%;
 
+            .message-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                margin-bottom: 10px;
             }
 
             .left {
                 align-self: flex-start;
-                background-color: #e0e0e0;
             }
 
             .right {
                 align-self: flex-end;
+            }
+
+            .message-box {
+                padding: 10px;
+                margin-right: 10px;
+                border-radius: .5em;
+                background-color: #e0e0e0;
+            }
+
+            .right .message-box {
                 background-color: #32a852;
                 color: white;
             }
+
         }
+
 
         .input-container {
             width: 100%;

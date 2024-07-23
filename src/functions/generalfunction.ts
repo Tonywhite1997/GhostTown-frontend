@@ -9,9 +9,9 @@ export function useShowPassword() {
 }
 
 export function redirectToLogin(err: any, navigate: any) {
-  console.log(err?.response);
-
-  const { message } = err?.response?.data;
+  let message: string;
+  message = err?.response?.data.message;
+  if (!message) message = err.message;
 
   if (message.toLowerCase() === "unauthorized") {
     navigate("/auth/login");

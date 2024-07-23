@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../apis/useAuth";
 import useFeed from "../apis/useFeed";
 import { authContext } from "../contexts/AuthContext";
+import { useSocketContext } from "../contexts/SocketContext";
 import Loader from "../UI/Loader";
 
 function Feed() {
@@ -33,6 +34,8 @@ function Feed() {
       setError("Error fetching more feed");
     }
   }
+
+  // const { onlineUsers } = useSocketContext();
 
   return (
     <main className="feed">

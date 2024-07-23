@@ -16,6 +16,7 @@ import Feed from "./pages/Feed";
 import Chat from "./pages/Chat";
 import Group from "./pages/Group";
 import Me from "./pages/Me";
+import SocketContextProvider from "./contexts/SocketContext";
 
 const queryClient = new QueryClient();
 function App() {
@@ -24,32 +25,40 @@ function App() {
       <ToastContainer theme="dark" />
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <Routes>
-            <Route path="/" element={<LoginLayout children={<Login />} />} />
-            <Route
-              path="/auth/login"
-              element={<LoginLayout children={<Login />} />}
-            />
-            <Route
-              path="/auth/signup"
-              element={<SignupLayout children={<Signup />} />}
-            />
-            <Route path="/feed" element={<FeedLayout children={<Feed />} />} />
+          <SocketContextProvider>
+            <Routes>
+              <Route path="/" element={<LoginLayout children={<Login />} />} />
+              <Route
+                path="/auth/login"
+                element={<LoginLayout children={<Login />} />}
+              />
+              <Route
+                path="/auth/signup"
+                element={<SignupLayout children={<Signup />} />}
+              />
+              <Route
+                path="/feed"
+                element={<FeedLayout children={<Feed />} />}
+              />
 
-            <Route path="/chats" element={<ChatLayout children={<Chat />} />} />
+              <Route
+                path="/chats"
+                element={<ChatLayout children={<Chat />} />}
+              />
 
-            <Route
-              path="/chats/:id"
-              element={<ChatLayout children={<Chat />} />}
-            />
+              <Route
+                path="/chats/:id"
+                element={<ChatLayout children={<Chat />} />}
+              />
 
-            <Route
-              path="/groups"
-              element={<GroupLayout children={<Group />} />}
-            />
+              <Route
+                path="/groups"
+                element={<GroupLayout children={<Group />} />}
+              />
 
-            <Route path="/me" element={<MeLayout children={<Me />} />} />
-          </Routes>
+              <Route path="/me" element={<MeLayout children={<Me />} />} />
+            </Routes>
+          </SocketContextProvider>
         </AuthProvider>
       </QueryClientProvider>
     </Router>

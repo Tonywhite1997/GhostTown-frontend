@@ -1,11 +1,16 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../contexts/AuthContext";
 import { MessageType } from "../types/types";
+import { authContext } from "../contexts/AuthContext";
 
 function useMessage() {
   const [isSendingMessage, setIsSendingMessage] = useState<boolean>(false);
+
+  const auth = useContext(authContext);
+
+  if (!auth) throw new Error("auth should be within authProvider");
 
   async function sendMessage(
     userId: string | undefined,
@@ -26,7 +31,10 @@ function useMessage() {
         }
       );
 
-      setMessages((prev) => [...prev, data]);
+      if (auth?.user?.id === data.authorID) {
+        setMessages((prev) => [...prev, data]);
+      }
+
       setMessageBody("");
 
       setIsSendingMessage(false);

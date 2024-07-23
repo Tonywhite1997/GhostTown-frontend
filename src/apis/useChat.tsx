@@ -36,6 +36,7 @@ function useChat() {
   return {
     isLoading,
     chatRecipients,
+    setChatRecipients,
     getChatsRecipients,
     messages,
     setMessages,

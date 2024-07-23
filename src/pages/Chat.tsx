@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useContext,
-  useState,
-  ChangeEvent,
-  useCallback,
-} from "react";
+import { useEffect, useContext, useState, ChangeEvent } from "react";
 import { FaPaperPlane } from "react-icons/fa6";
 import { Link, useParams } from "react-router-dom";
 import useChat from "../apis/useChat";
@@ -13,6 +7,8 @@ import { authContext } from "../contexts/AuthContext";
 import ChatMessage from "../UI/ChatMessage";
 import useUser from "../apis/useUser";
 import useMessage from "../apis/useMessage";
+import useListenMessage from "../apis/useListenMessage";
+import useListenRecipients from "../apis/useListenRecipients";
 
 function Chat() {
   const [messageBody, setMessageBody] = useState<string>("");
@@ -25,17 +21,20 @@ function Chat() {
     getChatsRecipients,
     isLoading,
     chatRecipients,
+    setChatRecipients,
     getChat,
     isFetching,
     messages,
     setMessages,
   } = useChat();
+  const { id } = useParams();
+  useListenMessage(setMessages, id);
+  useListenRecipients(setChatRecipients);
 
   const { getUser, isFetchingUser, user } = useUser();
 
   const { isSendingMessage, sendMessage } = useMessage();
 
-  const { id } = useParams();
   const auth = useContext(authContext);
 
   if (!auth) {
@@ -85,11 +84,11 @@ function Chat() {
           })}
       </section>
       <section className="inbox">
-        {!isFetching && messages.length === 0 && !id && <p>No chat selected</p>}
+        {!isFetching && !id && <p>No chat selected</p>}
 
         {isFetchingUser && <Loader />}
 
-        {!isFetchingUser && (
+        {!isFetchingUser && id && (
           <div className="recipient-div">
             <div className="profile-pic">
               <img src={user?.profilePicURL} />
@@ -102,7 +101,7 @@ function Chat() {
           <p className="no-message">No messages</p>
         )}
 
-        {auth.user?.id && !isFetching && (
+        {auth.user?.id && !isFetching && id && (
           <ChatMessage messages={messages} loggedInUserId={auth.user?.id} />
         )}
 

@@ -9,6 +9,7 @@ import useUser from "../apis/useUser";
 import useMessage from "../apis/useMessage";
 import useListenMessage from "../apis/useListenMessage";
 import useListenRecipients from "../apis/useListenRecipients";
+import { useSocketContext } from "../contexts/SocketContext";
 
 function Chat() {
   const [messageBody, setMessageBody] = useState<string>("");
@@ -27,9 +28,14 @@ function Chat() {
     messages,
     setMessages,
   } = useChat();
+
   const { id } = useParams();
+
   useListenMessage(setMessages, id);
+
   useListenRecipients(setChatRecipients);
+
+  const { onlineUsers } = useSocketContext();
 
   const { getUser, isFetchingUser, user } = useUser();
 
@@ -59,15 +65,28 @@ function Chat() {
     }
   }, [id, auth.user?.username, chatRecipients]);
 
+  if (!auth.user?.id) {
+    return (
+      <div className="main">
+        <p>server Error</p>
+      </div>
+    );
+  }
+
   return (
     <main className="chat">
       <section className="old-chats">
-        {!isLoading && chatRecipients.length < 1 && <p>No chats available</p>}
+        {!isLoading && chatRecipients.length < 1 && auth.user?.id && (
+          <p>No chats available</p>
+        )}
+
+        {!auth.user?.id && <p>Server Error</p>}
 
         {isLoading && <Loader />}
 
         {!isLoading &&
           chatRecipients.length > 0 &&
+          auth.user?.id &&
           chatRecipients.map((recipient) => {
             return (
               <Link
@@ -78,28 +97,43 @@ function Chat() {
                 <div className="profile-pic">
                   <img src={recipient.profilePicURL} />
                 </div>
-                <p>{recipient.username}</p>
+                <div>
+                  <p>{recipient.username}</p>
+                  <p className="status">
+                    {onlineUsers.includes(recipient.id) ? "online" : "offline"}
+                  </p>
+                </div>
               </Link>
             );
           })}
       </section>
       <section className="inbox">
-        {!isFetching && !id && <p>No chat selected</p>}
+        {!isFetching && !id && auth.user?.id && <p>No chat selected</p>}
 
         {isFetchingUser && <Loader />}
 
-        {!isFetchingUser && id && (
+        {!isFetchingUser && id && auth.user?.id && (
           <div className="recipient-div">
             <div className="profile-pic">
               <img src={user?.profilePicURL} />
             </div>
-            <p>{user?.username}</p>
+            <div>
+              <p>{user?.username}</p>
+              <p className="status">
+                {user?.id && onlineUsers.includes(user?.id)
+                  ? "online"
+                  : "offline"}
+              </p>
+            </div>
           </div>
         )}
 
-        {!isFetching && !isFetchingUser && messages.length === 0 && id && (
-          <p className="no-message">No messages</p>
-        )}
+        {!isFetching &&
+          !isFetchingUser &&
+          messages.length === 0 &&
+          id &&
+          auth.user?.id && <p className="no-message">No messages</p>}
+        {!auth.user?.id && <p>Server Error</p>}
 
         {auth.user?.id && !isFetching && id && (
           <ChatMessage messages={messages} loggedInUserId={auth.user?.id} />

@@ -19,24 +19,25 @@ const ChatMessage = ({
 
   return (
     <div className="chat-box">
-      {messages.map((msg) => (
-        <div
-          key={msg.id}
-          className={`message-container ${
-            msg.authorID === loggedInUserId ? "right" : "left"
-          }`}
-        >
+      {messages.length > 0 &&
+        messages.map((msg) => (
           <div
             key={msg.id}
-            className={`message-box ${
+            className={`message-container ${
               msg.authorID === loggedInUserId ? "right" : "left"
             }`}
           >
-            <p>{msg.body}</p>
+            <div
+              key={msg.id}
+              className={`message-box ${
+                msg.authorID === loggedInUserId ? "right" : "left"
+              }`}
+            >
+              <p>{msg.body}</p>
+            </div>
+            <small>{extractHourAndMinute(msg.created_at)}</small>
           </div>
-          <small>{extractHourAndMinute(msg.created_at)}</small>
-        </div>
-      ))}
+        ))}
       <div ref={endChatRef}></div>
     </div>
   );

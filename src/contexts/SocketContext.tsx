@@ -45,7 +45,7 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
       });
       socketRef.current = socket;
 
-      socket.on("getOnlineUsers", (users: string[]) => {
+      socket.on("onlineUsers", (users: string[]) => {
         setOnlineUsers(users);
       });
 

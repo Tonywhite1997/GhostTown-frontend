@@ -22,7 +22,9 @@ const socketContext = createContext<SocketType | undefined>(undefined);
 export function useSocketContext(): SocketType {
   const context = useContext(socketContext);
   if (!context)
-    throw new Error("useSocketContext must be used with SocketContextProvider");
+    throw new Error(
+      "useSocketContext must be used within SocketContextProvider"
+    );
   return context;
 }
 

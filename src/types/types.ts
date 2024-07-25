@@ -12,6 +12,15 @@ export type UserType = {
   email?: string;
 };
 
+export type RecipientType = {
+  id: string;
+  profilePicURL: string;
+  username: string;
+  unread_count: number;
+  last_message: string;
+  last_message_timeStamp: string;
+};
+
 export type MessageType = {
   body: string;
   created_at: string;

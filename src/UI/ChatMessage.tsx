@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { MessageType } from "../types/types";
-import { extractHourAndMinute } from "../utils/extractDate";
+import { extractDayName, extractHourAndMinute } from "../utils/extractDate";
 
 const ChatMessage = ({
   messages,
@@ -27,6 +27,7 @@ const ChatMessage = ({
               msg.authorID === loggedInUserId ? "right" : "left"
             }`}
           >
+            {/* <small>{extractDayName(msg.created_at)}</small> */}
             <div
               key={msg.id}
               className={`message-box ${

@@ -3,13 +3,15 @@ import { FaPaperPlane } from "react-icons/fa6";
 import { Link, useParams } from "react-router-dom";
 import useChat from "../apis/useChat";
 import Loader from "../UI/Loader";
-import { authContext } from "../contexts/AuthContext";
+import { authContext, BASE_URL } from "../contexts/AuthContext";
 import ChatMessage from "../UI/ChatMessage";
 import useUser from "../apis/useUser";
 import useMessage from "../apis/useMessage";
 import useListenMessage from "../apis/useListenMessage";
 import useListenRecipients from "../apis/useListenRecipients";
 import { useSocketContext } from "../contexts/SocketContext";
+import { extractHourAndMinute } from "../utils/extractDate";
+import axios from "axios";
 
 function Chat() {
   const [messageBody, setMessageBody] = useState<string>("");
@@ -59,6 +61,16 @@ function Chat() {
     }
   }, [id, auth.user?.username]);
 
+  async function readMessage() {
+    return await axios.patch(`${BASE_URL}/chats/${id}`);
+  }
+
+  useEffect(() => {
+    if (id && !isFetching && auth.user?.id) {
+      readMessage();
+    }
+  }, [id, auth.user?.id, isFetching]);
+
   useEffect(() => {
     if (id && auth.user?.username && chatRecipients.length > 0) {
       getChat(id);
@@ -96,13 +108,30 @@ function Chat() {
               >
                 <div className="profile-pic">
                   <img src={recipient.profilePicURL} />
+                  <div
+                    className={
+                      onlineUsers.includes(recipient.id)
+                        ? "online-status online"
+                        : "online-status offline"
+                    }
+                  ></div>
                 </div>
-                <div>
+                <div className="message-details-container">
                   <p>{recipient.username}</p>
-                  <p className="status">
-                    {onlineUsers.includes(recipient.id) ? "online" : "offline"}
-                  </p>
+                  <div className="last-message-div">
+                    <p className="last-message">{recipient.last_message}</p>
+                    <p>
+                      {extractHourAndMinute(recipient.last_message_timeStamp)}
+                    </p>
+                  </div>
                 </div>
+                {/* {recipient.unread_count > 0 && (
+                  <div className="unread-msg">
+                    {auth.user?.id !== recipient.id && (
+                      <p>{recipient.unread_count}</p>
+                    )}
+                  </div>
+                )} */}
               </Link>
             );
           })}

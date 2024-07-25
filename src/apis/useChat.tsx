@@ -2,10 +2,10 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../contexts/AuthContext";
-import { UserType, MessageType } from "../types/types";
+import { MessageType, RecipientType } from "../types/types";
 
 function useChat() {
-  const [chatRecipients, setChatRecipients] = useState<UserType[]>([]);
+  const [chatRecipients, setChatRecipients] = useState<RecipientType[]>([]);
   const [messages, setMessages] = useState<MessageType[] | []>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFetching, setIsFetcing] = useState<boolean>(false);

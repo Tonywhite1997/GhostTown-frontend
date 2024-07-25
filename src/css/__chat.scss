@@ -25,18 +25,61 @@
             display: flex;
             align-items: center;
             gap: .5em;
+            position: relative;
 
-            .status {
-                color: rgb(128, 126, 126);
-                font-family: cursive;
-                margin-top: -.3em;
+            .message-details-container {
+                width: 100%;
+
+                .last-message-div {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+
+            .unread-msg {
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                border-radius: 100%;
+                background-color: #32a852;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                right: 0;
+                top: 0;
             }
 
             .profile-pic {
+                position: relative;
                 width: 40px;
 
                 img {
                     width: 100%;
+                }
+
+                .online-status.online {
+
+                    height: 10px;
+                    width: 10px;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    border-radius: 100%;
+                    background-color: #32a852;
+
+                }
+
+                .online-status.offline {
+
+                    height: 10px;
+                    width: 10px;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    border-radius: 100%;
+
+
+                    background-color: rgb(146, 144, 144);
                 }
             }
 

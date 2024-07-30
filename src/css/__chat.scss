@@ -7,7 +7,11 @@
     gap: 1em;
     overflow-y: scroll;
 
-    .old-chats {
+    .old-chats.hide {
+        display: none;
+    }
+
+    .old-chats.show {
         width: 250px;
         padding: .2em .5em;
         background-color: rgb(249, 249, 249);
@@ -26,13 +30,31 @@
             align-items: center;
             gap: .5em;
             position: relative;
+            margin-bottom: .5em;
 
             .message-details-container {
-                width: 100%;
+                width: calc(100% - 50px);
 
                 .last-message-div {
                     display: flex;
                     justify-content: space-between;
+                    text-align: right;
+
+                    .last-message {
+                        font-size: .8rem;
+                        direction: ltr;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        display: block;
+                        flex: 1;
+                        text-align: left;
+
+                    }
+
+                    .last-message-time {
+                        width: auto;
+                    }
                 }
             }
 
@@ -89,7 +111,11 @@
         }
     }
 
-    .inbox {
+    .inbox.hide {
+        display: none;
+    }
+
+    .inbox.show {
         width: calc(100% - 250px);
         height: 100%;
         display: flex;
@@ -128,44 +154,64 @@
         .chat-box {
             display: flex;
             flex-direction: column;
-            height: 100%;
-            overflow-y: scroll;
+            overflow-y: auto;
 
             &::-webkit-scrollbar {
                 color: white;
             }
-
-
-            .message-container {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: flex-start;
-                margin-bottom: 10px;
-            }
-
-            .left {
-                align-self: flex-start;
-            }
-
-            .right {
-                align-self: flex-end;
-            }
-
-            .message-box {
-                padding: 10px;
-                margin-right: 10px;
-                border-radius: .5em;
-                background-color: #e0e0e0;
-            }
-
-            .right .message-box {
-                background-color: #32a852;
-                color: white;
-            }
-
         }
 
+        .message-group {
+            margin-bottom: 20px;
+
+            .date-heading {
+                text-align: center;
+                font-size: 1em;
+                color: #666;
+                margin: 10px 0;
+            }
+        }
+
+        .message-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            &.left {
+                justify-content: flex-start;
+                text-align: left;
+            }
+
+            &.right {
+                justify-content: flex-end;
+                text-align: left;
+            }
+        }
+
+        .message-box {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            position: relative;
+            word-wrap: break-word;
+
+            &.left {
+                background-color: #f1f0f0;
+                text-align: left;
+            }
+
+            &.right {
+                background-color: #32a852;
+                text-align: left;
+                color: white;
+            }
+        }
+
+        .time {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 5px;
+        }
 
         .input-container {
             width: 100%;

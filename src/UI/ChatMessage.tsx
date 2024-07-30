@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
+import { format, parseISO } from "date-fns";
 import { MessageType } from "../types/types";
-import { extractDayName, extractHourAndMinute } from "../utils/extractDate";
+import { groupMessagesByDate } from "../utils/formatDate";
 
 const ChatMessage = ({
   messages,
@@ -10,6 +11,7 @@ const ChatMessage = ({
   loggedInUserId: string;
 }) => {
   const endChatRef = useRef<HTMLDivElement | null>(null);
+  const groupedMessages = groupMessagesByDate(messages);
 
   useEffect(() => {
     if (endChatRef.current) {
@@ -19,26 +21,30 @@ const ChatMessage = ({
 
   return (
     <div className="chat-box">
-      {messages.length > 0 &&
-        messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`message-container ${
-              msg.authorID === loggedInUserId ? "right" : "left"
-            }`}
-          >
-            {/* <small>{extractDayName(msg.created_at)}</small> */}
+      {Object.entries(groupedMessages).map(([date, msgs]) => (
+        <div key={date} className="message-group">
+          <h3 className="date-heading">{date}</h3>
+          {msgs.map((msg) => (
             <div
               key={msg.id}
-              className={`message-box ${
+              className={`message-container ${
                 msg.authorID === loggedInUserId ? "right" : "left"
               }`}
             >
-              <p>{msg.body}</p>
+              <div
+                className={`message-box ${
+                  msg.authorID === loggedInUserId ? "right" : "left"
+                }`}
+              >
+                <p>{msg.body}</p>
+              </div>
+              <small className="time">
+                {format(parseISO(msg.created_at), "p")}
+              </small>
             </div>
-            <small>{extractHourAndMinute(msg.created_at)}</small>
-          </div>
-        ))}
+          ))}
+        </div>
+      ))}
       <div ref={endChatRef}></div>
     </div>
   );

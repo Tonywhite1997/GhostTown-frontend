@@ -10,8 +10,9 @@ import useMessage from "../apis/useMessage";
 import useListenMessage from "../apis/useListenMessage";
 import useListenRecipients from "../apis/useListenRecipients";
 import { useSocketContext } from "../contexts/SocketContext";
-import { extractHourAndMinute } from "../utils/extractDate";
+import { useDeviceWidth } from "../utils/calculateDeviceWidth";
 import axios from "axios";
+import { lastMessageDate } from "../utils/formatDate";
 
 function Chat() {
   const [messageBody, setMessageBody] = useState<string>("");
@@ -30,6 +31,8 @@ function Chat() {
     messages,
     setMessages,
   } = useChat();
+
+  const deviceWidth = useDeviceWidth();
 
   const { id } = useParams();
 
@@ -87,7 +90,14 @@ function Chat() {
 
   return (
     <main className="chat">
-      <section className="old-chats">
+      <section
+        className={`old-chats ${
+          (deviceWidth < 700 && !id) || deviceWidth > 700 ? "show" : "hide"
+        }`}
+        style={{
+          width: deviceWidth < 700 ? "100%" : "250px",
+        }}
+      >
         {!isLoading && chatRecipients.length < 1 && auth.user?.id && (
           <p>No chats available</p>
         )}
@@ -120,23 +130,23 @@ function Chat() {
                   <p>{recipient.username}</p>
                   <div className="last-message-div">
                     <p className="last-message">{recipient.last_message}</p>
-                    <p>
-                      {extractHourAndMinute(recipient.last_message_timeStamp)}
+                    <p className="last-message-time">
+                      {lastMessageDate(recipient.last_message_timeStamp)}
                     </p>
                   </div>
                 </div>
-                {/* {recipient.unread_count > 0 && (
-                  <div className="unread-msg">
-                    {auth.user?.id !== recipient.id && (
-                      <p>{recipient.unread_count}</p>
-                    )}
-                  </div>
-                )} */}
               </Link>
             );
           })}
       </section>
-      <section className="inbox">
+      <section
+        className={`inbox ${
+          (deviceWidth < 700 && id) || deviceWidth > 700 ? "show" : "hide"
+        }`}
+        style={{
+          width: deviceWidth < 700 ? "100%" : " ",
+        }}
+      >
         {!isFetching && !id && auth.user?.id && <p>No chat selected</p>}
 
         {isFetchingUser && <Loader />}

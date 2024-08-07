@@ -19,6 +19,8 @@ import Group from "./pages/Group";
 import Me from "./pages/Me";
 import DeleteAccount from "./pages/DeleteAccount";
 import SocketContextProvider from "./contexts/SocketContext";
+import ChangePasswordLayout from "./layouts/ChangePassword";
+import ChangePassword from "./pages/ChangePassword";
 
 const queryClient = new QueryClient();
 function App() {
@@ -63,6 +65,11 @@ function App() {
               <Route
                 path="/delete-account"
                 element={<DeleteAccountLayout children={<DeleteAccount />} />}
+              />
+
+              <Route
+                path="/change-password"
+                element={<ChangePasswordLayout children={<ChangePassword />} />}
               />
             </Routes>
           </SocketContextProvider>

@@ -12,6 +12,11 @@ export type UserType = {
   email?: string;
 };
 
+export type ChangePasswordType = {
+  newPassword: string;
+  oldPassword: string;
+};
+
 export type RecipientType = {
   id: string;
   profilePicURL: string;

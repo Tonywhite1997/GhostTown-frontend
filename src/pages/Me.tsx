@@ -1,10 +1,13 @@
 import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { authContext } from "../contexts/AuthContext";
 import Loader from "../UI/Loader";
+import useLogout from "../apis/useLogout";
 
 function Me() {
   const [isImageLoading, setIsImageLoading] = useState<boolean>(true);
   const auth = useContext(authContext);
+  const { logout, isLogout } = useLogout();
   if (!auth)
     throw new Error("useAuth must be used within authContext provider");
 
@@ -22,8 +25,15 @@ function Me() {
         <p>{auth.user?.email}</p>
       </div>
       <div className="me-actions">
-        <button className="link">Change Password</button>
-        <button className="link">Delete Account</button>
+        <Link to="/change-password" className="link">
+          Change Password
+        </Link>
+        <Link to="/delete-account" className="link">
+          Delete Account
+        </Link>
+        <button onClick={logout} className="link">
+          {isLogout ? <Loader /> : "Logout"}
+        </button>
       </div>
     </div>
   );

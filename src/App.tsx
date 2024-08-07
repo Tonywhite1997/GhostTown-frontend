@@ -9,6 +9,7 @@ import FeedLayout from "./layouts/Feed";
 import ChatLayout from "./layouts/Chat";
 import GroupLayout from "./layouts/Group";
 import MeLayout from "./layouts/Me";
+import DeleteAccountLayout from "./layouts/DeleteAccount";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -16,6 +17,7 @@ import Feed from "./pages/Feed";
 import Chat from "./pages/Chat";
 import Group from "./pages/Group";
 import Me from "./pages/Me";
+import DeleteAccount from "./pages/DeleteAccount";
 import SocketContextProvider from "./contexts/SocketContext";
 
 const queryClient = new QueryClient();
@@ -57,6 +59,11 @@ function App() {
               />
 
               <Route path="/me" element={<MeLayout children={<Me />} />} />
+
+              <Route
+                path="/delete-account"
+                element={<DeleteAccountLayout children={<DeleteAccount />} />}
+              />
             </Routes>
           </SocketContextProvider>
         </AuthProvider>

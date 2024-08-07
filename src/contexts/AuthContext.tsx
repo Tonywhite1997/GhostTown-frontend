@@ -44,7 +44,13 @@ export function AuthProvider({ children }: { children: react.ReactNode }) {
   }
 
   useEffect(() => {
-    getMe();
+    if (
+      location.pathname !== "/auth/forgot-password" &&
+      location.pathname !== "/auth/reset-password" &&
+      location.pathname !== "/auth/signup"
+    ) {
+      getMe();
+    }
   }, []);
 
   if (isLoading) {

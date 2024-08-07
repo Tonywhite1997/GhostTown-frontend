@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { authContext } from "../contexts/AuthContext";
 import Loader from "../UI/Loader";
@@ -25,10 +25,10 @@ function Me() {
         <p>{auth.user?.email}</p>
       </div>
       <div className="me-actions">
-        <Link to="/change-password" className="link">
+        <Link to="/auth/change-password" className="link">
           Change Password
         </Link>
-        <Link to="/delete-account" className="link">
+        <Link to="/auth/delete-account" className="link">
           Delete Account
         </Link>
         <button onClick={logout} className="link">

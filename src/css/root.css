@@ -8,6 +8,8 @@
 @import url("./__me.scss");
 @import url("./__deleteAcc.scss");
 @import url("./__changePassword.scss");
+@import url("./__forgotPassword.scss");
+@import url("./__resetPassword.scss");
 @import url("./__variables.scss");
 * {
   margin: 0px;

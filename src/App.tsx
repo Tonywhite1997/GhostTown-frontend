@@ -21,6 +21,10 @@ import DeleteAccount from "./pages/DeleteAccount";
 import SocketContextProvider from "./contexts/SocketContext";
 import ChangePasswordLayout from "./layouts/ChangePassword";
 import ChangePassword from "./pages/ChangePassword";
+import ForgotPasswordLayout from "./layouts/ForgotPassword";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPasswordLayout from "./layouts/ResetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 function App() {
@@ -63,13 +67,23 @@ function App() {
               <Route path="/me" element={<MeLayout children={<Me />} />} />
 
               <Route
-                path="/delete-account"
+                path="/auth/delete-account"
                 element={<DeleteAccountLayout children={<DeleteAccount />} />}
               />
 
               <Route
-                path="/change-password"
+                path="/auth/change-password"
                 element={<ChangePasswordLayout children={<ChangePassword />} />}
+              />
+
+              <Route
+                path="/auth/forgot-password"
+                element={<ForgotPasswordLayout children={<ForgotPassword />} />}
+              />
+
+              <Route
+                path="/auth/reset-password"
+                element={<ResetPasswordLayout children={<ResetPassword />} />}
               />
             </Routes>
           </SocketContextProvider>

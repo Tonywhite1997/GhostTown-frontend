@@ -64,7 +64,7 @@ function Login() {
           </button>
         </div>
 
-        <Link className="forgotten-password" to="/auth/forgotten-password">
+        <Link className="forgotten-password" to="/auth/forgot-password">
           Forgotten password?
         </Link>
         <hr className="divider" />

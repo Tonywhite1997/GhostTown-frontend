@@ -15,7 +15,10 @@ function useChangePassword(newPasswordDetails: ChangePasswordType) {
 
   async function changePassword(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (!newPasswordDetails.oldPassword && !newPasswordDetails.newPassword)
+    if (
+      !newPasswordDetails.oldPassword.trim() &&
+      !newPasswordDetails.newPassword.trim()
+    )
       return toast("old and new passwords required");
 
     try {

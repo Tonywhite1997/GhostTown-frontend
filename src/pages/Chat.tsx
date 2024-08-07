@@ -99,10 +99,10 @@ function Chat() {
         }}
       >
         {!isLoading && chatRecipients.length < 1 && auth.user?.id && (
-          <p>No chats available</p>
+          <p className="response-text">No chats available</p>
         )}
 
-        {!auth.user?.id && <p>Server Error</p>}
+        {!auth.user?.id && <p className="response-text">Server Error</p>}
 
         {isLoading && <Loader />}
 
@@ -171,8 +171,10 @@ function Chat() {
           !isFetchingUser &&
           messages.length === 0 &&
           id &&
-          auth.user?.id && <p className="no-message">No messages</p>}
-        {!auth.user?.id && <p>Server Error</p>}
+          auth.user?.id && (
+            <p className="response-text no-message">No messages</p>
+          )}
+        {!auth.user?.id && <p className="response-text">Server Error</p>}
 
         {auth.user?.id && !isFetching && id && (
           <ChatMessage messages={messages} loggedInUserId={auth.user?.id} />

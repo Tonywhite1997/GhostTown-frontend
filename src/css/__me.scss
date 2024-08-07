@@ -1,5 +1,5 @@
 .me {
-    padding: 0 2em;
+    padding: 2em 2em;
     padding-top: calc(100px + 2em);
     display: flex;
     flex-direction: column;
@@ -42,4 +42,13 @@
         }
     }
 
+}
+
+@media screen and (max-width:520px) {
+    .me {
+        .me-actions {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
 }

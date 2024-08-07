@@ -9,7 +9,7 @@ export type UserType = {
   id: string;
   profilePicURL: string;
   username: string;
-  email?: string;
+  email: string;
 };
 
 export type ChangePasswordType = {

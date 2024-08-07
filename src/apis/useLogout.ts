@@ -18,7 +18,9 @@ function useLogout() {
 
       pathname.includes("me") && toast("Logout successfully");
       navigate("/auth/login");
+      setIsLogout(false);
     } catch (err: any) {
+      setIsLogout(false);
       toast(err?.response?.data?.message);
     }
   }

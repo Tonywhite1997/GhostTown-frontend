@@ -5,34 +5,62 @@ import { UserType } from "../types/types";
 
 function useFeed() {
   const [feed, setFeed] = useState<UserType[] | []>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isMoreFeed, setIsMoreFeed] = useState(false);
   const [offset, setOffset] = useState<number>(0);
   const [error, setError] = useState<string>("");
+  const [moreFeedError, setMoreFeedError] = useState<string>("");
 
   async function getFeed() {
-    setIsLoading(true);
+    if (isLoading) return;
 
     try {
-      const { data } = await axios.get(`${BASE_URL}/users?offset=${offset}`);
+      setIsLoading(true);
+      const { data } = await axios.get(`${BASE_URL}/users`);
 
       setIsLoading(false);
+
+      setFeed(data);
+
+      setOffset((prevOffset) => (prevOffset += 20));
+    } catch (err: any) {
+      setError("Error fectching feed");
+      setIsLoading(false);
+    }
+  }
+
+  async function getMoreFeed() {
+    if (isMoreFeed) return;
+
+    try {
+      setIsMoreFeed(true);
+      const { data } = await axios.get(`${BASE_URL}/users?offset=${offset}`);
+
+      setIsMoreFeed(false);
 
       if (feed.length) {
         setFeed((prevFeed) => {
           return [...prevFeed, ...data];
         });
-      } else {
-        setFeed(data);
       }
 
       setOffset((prevOffset) => (prevOffset += 20));
     } catch (err: any) {
-      console.error(err);
-      setError("Error fectching more feed");
-      setIsLoading(false);
+      setMoreFeedError("Error fectching more feed");
+      setIsMoreFeed(false);
     }
   }
-  return { feed, isLoading, offset, setOffset, getFeed, error, setError };
+
+  return {
+    feed,
+    isLoading,
+    offset,
+    getFeed,
+    error,
+    isMoreFeed,
+    getMoreFeed,
+    moreFeedError,
+  };
 }
 
 export default useFeed;

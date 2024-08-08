@@ -13,6 +13,7 @@ import { useSocketContext } from "../contexts/SocketContext";
 import { useDeviceWidth } from "../utils/calculateDeviceWidth";
 import axios from "axios";
 import { lastMessageDate } from "../utils/formatDate";
+import { AuthContextType, UserType } from "../types/types";
 
 function Chat() {
   const [messageBody, setMessageBody] = useState<string>("");
@@ -48,39 +49,35 @@ function Chat() {
 
   const auth = useContext(authContext);
 
-  if (!auth) {
-    throw new Error("Auth Error");
-  }
-
   useEffect(() => {
-    if (auth.user?.username) {
+    if (auth && auth.user?.username) {
       getChatsRecipients();
     }
-  }, [auth.user?.username]);
+  }, [auth && auth.user?.username]);
 
   useEffect(() => {
-    if (id && auth.user?.username) {
+    if (id && auth && auth.user?.username) {
       getUser(id);
     }
-  }, [id, auth.user?.username]);
+  }, [id, auth && auth.user?.username]);
 
   async function readMessage() {
     return await axios.patch(`${BASE_URL}/chats/${id}`);
   }
 
   useEffect(() => {
-    if (id && !isFetching && auth.user?.id) {
+    if (id && !isFetching && auth && auth.user?.id) {
       readMessage();
     }
-  }, [id, auth.user?.id, isFetching]);
+  }, [id, auth && auth.user?.id, isFetching]);
 
   useEffect(() => {
-    if (id && auth.user?.username && chatRecipients.length > 0) {
+    if (id && auth && auth.user?.username && chatRecipients.length > 0) {
       getChat(id);
     }
-  }, [id, auth.user?.username, chatRecipients]);
+  }, [id, auth && auth.user?.username, chatRecipients]);
 
-  if (!auth.user?.id) {
+  if (auth && !auth.user?.id) {
     return (
       <div className="main">
         <p>server Error</p>
@@ -98,18 +95,21 @@ function Chat() {
           width: deviceWidth < 700 ? "100%" : "250px",
         }}
       >
-        {!isLoading && chatRecipients.length < 1 && auth.user?.id && (
+        {!isLoading && chatRecipients?.length < 1 && auth && auth.user?.id && (
           <p className="response-text">No chats available</p>
         )}
 
-        {!auth.user?.id && <p className="response-text">Server Error</p>}
+        {auth && !auth.user?.id && (
+          <p className="response-text">Server Error</p>
+        )}
 
         {isLoading && <Loader />}
 
         {!isLoading &&
-          chatRecipients.length > 0 &&
+          chatRecipients?.length > 0 &&
+          auth &&
           auth.user?.id &&
-          chatRecipients.map((recipient) => {
+          chatRecipients?.map((recipient) => {
             return (
               <Link
                 to={`/chats/${recipient.id}`}
@@ -147,11 +147,11 @@ function Chat() {
           width: deviceWidth < 700 ? "100%" : " ",
         }}
       >
-        {!isFetching && !id && auth.user?.id && <p>No chat selected</p>}
+        {!isFetching && !id && auth && auth.user?.id && <p>No chat selected</p>}
 
         {isFetchingUser && <Loader />}
 
-        {!isFetchingUser && id && auth.user?.id && (
+        {!isFetchingUser && id && auth && auth.user?.id && (
           <div className="recipient-div">
             <div className="profile-pic">
               <img src={user?.profilePicURL} />
@@ -171,12 +171,15 @@ function Chat() {
           !isFetchingUser &&
           messages.length === 0 &&
           id &&
+          auth &&
           auth.user?.id && (
             <p className="response-text no-message">No messages</p>
           )}
-        {!auth.user?.id && <p className="response-text">Server Error</p>}
+        {auth && !auth.user?.id && (
+          <p className="response-text">Server Error</p>
+        )}
 
-        {auth.user?.id && !isFetching && id && (
+        {auth && auth.user?.id && !isFetching && id && (
           <ChatMessage messages={messages} loggedInUserId={auth.user?.id} />
         )}
 

@@ -11,8 +11,6 @@ function useResetPassword(
   const [isLoading, setIsLoading] = useState(false);
 
   async function resetPassword() {
-    console.log({ resetToken, newPassword: newPassword.trim().length });
-
     if (isLoading) return;
 
     if (!resetToken.trim() || !newPassword.trim())

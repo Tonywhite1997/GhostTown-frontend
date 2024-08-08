@@ -1,14 +1,20 @@
 import { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import useAuth from "../apis/useAuth";
 import useFeed from "../apis/useFeed";
 import { authContext } from "../contexts/AuthContext";
-import { useSocketContext } from "../contexts/SocketContext";
 import Loader from "../UI/Loader";
 
 function Feed() {
   const [isImageLoading, setIsImageLoadng] = useState(true);
-  const { feed: feeds, getFeed, isLoading, error, setError } = useFeed();
+  const {
+    feed: feeds,
+    getFeed,
+    isLoading,
+    error,
+    isMoreFeed,
+    getMoreFeed,
+    moreFeedError,
+  } = useFeed();
 
   const auth = useContext(authContext);
 
@@ -26,19 +32,10 @@ function Feed() {
     }
   }, [auth.user?.username]);
 
-  function getMoreFeed() {
-    setError("");
-    try {
-      getFeed();
-    } catch (err) {
-      setError("Error fetching more feed");
-    }
-  }
-
-  // const { onlineUsers } = useSocketContext();
-
   return (
     <main className="feed">
+      {isLoading && <Loader />}
+      {!isLoading && error && <p>{error}</p>}
       <div className="wrapper">
         {feeds.map((feed) => {
           return (
@@ -58,15 +55,17 @@ function Feed() {
         })}
       </div>
 
-      <div className="load-more">
-        {
-          <button className="load-more-btn" onClick={getMoreFeed}>
-            {isLoading ? <Loader /> : " Load more"}
-          </button>
-        }
+      {feeds.length > 0 && (
+        <div className="load-more">
+          {
+            <button className="load-more-btn" onClick={getMoreFeed}>
+              {isMoreFeed ? <Loader /> : " Load more"}
+            </button>
+          }
 
-        {error && <p>{error}</p>}
-      </div>
+          {moreFeedError && <p>{moreFeedError}</p>}
+        </div>
+      )}
     </main>
   );
 }

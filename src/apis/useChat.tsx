@@ -14,6 +14,7 @@ function useChat() {
     setIsLoading(true);
     try {
       const { data } = await axios.get(`${BASE_URL}/chats`);
+
       setChatRecipients(data);
       setIsLoading(false);
     } catch (err: any) {

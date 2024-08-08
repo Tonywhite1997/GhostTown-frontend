@@ -27,6 +27,8 @@ export function useLogin({
 
   async function handleLogin(e: FormEvent) {
     e.preventDefault();
+    if (isLoading) return;
+
     if (!username.trim() || !password.trim()) {
       return toast("username and password required");
     }

@@ -12,6 +12,7 @@ function useSignUp({ username, email, password, gender }: SignUpDataType) {
 
   async function handleSignUp(e: FormEvent) {
     e.preventDefault();
+    if (isLoading) return;
 
     if (
       !username.trim() ||

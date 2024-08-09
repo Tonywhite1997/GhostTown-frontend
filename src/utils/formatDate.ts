@@ -13,6 +13,8 @@ export const groupMessagesByDate = (messages: MessageType[]) => {
     const date = parseISO(msg.created_at);
     const dateString = isToday(date)
       ? "Today"
+      : isYesterday(date)
+      ? "Yestarday"
       : isThisMonth(date)
       ? format(date, "MMMM d")
       : isThisYear(date)

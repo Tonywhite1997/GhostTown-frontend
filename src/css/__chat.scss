@@ -199,6 +199,16 @@
             position: relative;
             word-wrap: break-word;
 
+
+
+            img {
+                height: auto;
+                width: auto;
+                max-width: 100px;
+                max-height: 100px;
+            }
+
+
             &.left {
                 background-color: #f1f0f0;
                 text-align: left;
@@ -225,16 +235,41 @@
             gap: .2em;
 
             .textarea-label {
+                position: relative;
                 width: 100%;
                 display: flex;
                 justify-content: flex-end;
 
+                .image-upload {
+                    position: absolute;
+                    width: 20px;
+                    overflow: hidden;
+                    top: 25%;
+                    right: 10px;
+
+                    .upload-icon {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    input {
+                        position: relative;
+                        cursor: pointer;
+                        z-index: 1;
+                        opacity: 0;
+                    }
+
+                }
+
                 textarea {
                     width: 100%;
-                    min-height: 50px;
+                    min-height: 40px;
+                    max-height: 120px;
                     padding: .5em .5em;
                     border-radius: .5em;
                     resize: none;
+                    overflow-y: auto;
                     font-size: 1rem;
 
                     &::-webkit-scrollbar {

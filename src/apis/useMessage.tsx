@@ -16,17 +16,19 @@ function useMessage() {
     userId: string | undefined,
     messageBody: string | undefined,
     setMessageBody: React.Dispatch<React.SetStateAction<string>>,
-    setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>
+    setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
+    uploadData?: any | undefined
   ) {
-    if (!messageBody) return;
-    setIsSendingMessage(true);
-    try {
+    // if (messageBody && uploadData) return toast("send either message or photo");
+
+    async function sendAPI(payload: any, CType: string) {
+      setIsSendingMessage(true);
       const { data } = await axios.post(
         `${BASE_URL}/messages/${userId}`,
-        { body: messageBody },
+        uploadData ? payload : { body: payload },
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": CType,
           },
         }
       );
@@ -38,7 +40,24 @@ function useMessage() {
       setMessageBody("");
 
       setIsSendingMessage(false);
+    }
+
+    try {
+      if (messageBody) {
+        sendAPI(messageBody, "application/json");
+      } else if (uploadData) {
+        const photoData = new FormData();
+
+        photoData.append("photo", uploadData);
+        console.log(uploadData);
+
+        sendAPI(photoData, "multipart/form-data");
+      } else {
+        return;
+      }
     } catch (err: any) {
+      console.log(err);
+
       setIsSendingMessage(false);
       toast("message not sent");
     }

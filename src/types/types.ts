@@ -27,7 +27,8 @@ export type RecipientType = {
 };
 
 export type MessageType = {
-  body: string;
+  body?: string;
+  photoURL?: string;
   created_at: string;
   id: string;
   authorID: string;

@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState, ChangeEvent } from "react";
-import { FaPaperPlane } from "react-icons/fa6";
+import { FaImage, FaPaperPlane } from "react-icons/fa6";
 import { Link, useParams } from "react-router-dom";
 import useChat from "../apis/useChat";
 import Loader from "../UI/Loader";
@@ -13,10 +13,10 @@ import { useSocketContext } from "../contexts/SocketContext";
 import { useDeviceWidth } from "../utils/calculateDeviceWidth";
 import axios from "axios";
 import { lastMessageDate } from "../utils/formatDate";
-import { AuthContextType, UserType } from "../types/types";
 
 function Chat() {
   const [messageBody, setMessageBody] = useState<string>("");
+  const [uploadData, setUploadData] = useState<any>();
 
   function getMessageBody(e: ChangeEvent<HTMLTextAreaElement>) {
     setMessageBody(e.target.value);
@@ -187,17 +187,34 @@ function Chat() {
           <label className="textarea-label">
             <textarea
               placeholder="message"
+              rows={1}
               name="messageBody"
               value={messageBody}
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
                 getMessageBody(e)
               }
             />
+            <div className="image-upload">
+              <FaImage className="upload-icon" />
+              <input
+                type="file"
+                onChange={(e) => {
+                  setUploadData(e.target.files && e.target.files[0]);
+                }}
+              />
+            </div>
           </label>
           <button
             className="send-icon"
             onClick={() => {
-              id && sendMessage(id, messageBody, setMessageBody, setMessages);
+              id &&
+                sendMessage(
+                  id,
+                  messageBody,
+                  setMessageBody,
+                  setMessages,
+                  uploadData
+                );
             }}
             disabled={isSendingMessage}
           >

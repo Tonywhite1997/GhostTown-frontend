@@ -60,7 +60,7 @@ function Login() {
 
         <div className="login-form_button">
           <button disabled={isLoading} onClick={handleLogin}>
-            {isLoading ? <Loader /> : "Login"}
+            {isLoading ? <Loader color="#34eb9b" /> : "Login"}
           </button>
         </div>
 

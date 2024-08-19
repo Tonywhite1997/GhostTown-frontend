@@ -32,11 +32,16 @@ const ChatMessage = ({
               }`}
             >
               <div
+                style={{
+                  backgroundColor: msg.photoURL ? "white" : "",
+                  padding: msg.photoURL ? "0" : "",
+                }}
                 className={`message-box ${
                   msg.authorID === loggedInUserId ? "right" : "left"
                 }`}
               >
-                <p>{msg.body}</p>
+                {msg.body && <p>{msg.body}</p>}
+                {msg.photoURL && <img src={msg.photoURL} />}
               </div>
               <small className="time">
                 {format(parseISO(msg.created_at), "p")}

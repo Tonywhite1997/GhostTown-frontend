@@ -129,7 +129,13 @@ function Chat() {
                 <div className="message-details-container">
                   <p>{recipient.username}</p>
                   <div className="last-message-div">
-                    <p className="last-message">{recipient.last_message}</p>
+                    <p className="last-message">
+                      {recipient.last_message.includes("s3.amazonaws.com") ? (
+                        <FaImage />
+                      ) : (
+                        recipient.last_message
+                      )}
+                    </p>
                     <p className="last-message-time">
                       {lastMessageDate(recipient.last_message_timeStamp)}
                     </p>

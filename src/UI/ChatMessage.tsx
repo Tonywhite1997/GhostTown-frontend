@@ -1,7 +1,9 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { format, parseISO } from "date-fns";
 import { MessageType } from "../types/types";
 import { groupMessagesByDate } from "../utils/formatDate";
+import ViewPhoto from "../pages/ViewPhoto";
+import Loader from "./Loader";
 
 const ChatMessage = ({
   messages,
@@ -10,8 +12,15 @@ const ChatMessage = ({
   messages: MessageType[];
   loggedInUserId: string;
 }) => {
+  const [viewPhoto, setViewPhoto] = useState<boolean>(false);
+  const [photoURL, setPhotoURL] = useState<string>("");
   const endChatRef = useRef<HTMLDivElement | null>(null);
   const groupedMessages = groupMessagesByDate(messages);
+  const [isImageLoading, setIsImageLoading] = useState(true);
+
+  function handleImageLoad() {
+    setIsImageLoading(false);
+  }
 
   useEffect(() => {
     if (endChatRef.current) {
@@ -41,7 +50,21 @@ const ChatMessage = ({
                 }`}
               >
                 {msg.body && <p>{msg.body}</p>}
-                {msg.photoURL && <img src={msg.photoURL} />}
+                {msg.photoURL && (
+                  <div className="photo-wrapper">
+                    {isImageLoading && <Loader />}
+                    <img
+                      src={msg.photoURL}
+                      onClick={() => {
+                        setViewPhoto(true);
+                        {
+                          msg.photoURL && setPhotoURL(msg.photoURL);
+                        }
+                      }}
+                      onLoad={handleImageLoad}
+                    />
+                  </div>
+                )}
               </div>
               <small className="time">
                 {format(parseISO(msg.created_at), "p")}
@@ -50,6 +73,11 @@ const ChatMessage = ({
           ))}
         </div>
       ))}
+
+      {viewPhoto && (
+        <ViewPhoto photoURL={photoURL} setViewPhoto={setViewPhoto} />
+      )}
+
       <div ref={endChatRef}></div>
     </div>
   );

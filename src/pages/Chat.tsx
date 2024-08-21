@@ -13,10 +13,14 @@ import { useSocketContext } from "../contexts/SocketContext";
 import { useDeviceWidth } from "../utils/calculateDeviceWidth";
 import axios from "axios";
 import { lastMessageDate } from "../utils/formatDate";
+import PreviewPhoto from "../UI/PreviewPhoto";
+import ViewPhoto from "./ViewPhoto";
 
 function Chat() {
   const [messageBody, setMessageBody] = useState<string>("");
   const [uploadData, setUploadData] = useState<any>();
+  const [previewURL, setPreviewURL] = useState<string | null>(null);
+  const [viewPhoto, setViewPhoto] = useState<boolean>(false);
 
   function getMessageBody(e: ChangeEvent<HTMLTextAreaElement>) {
     setMessageBody(e.target.value);
@@ -76,6 +80,17 @@ function Chat() {
       getChat(id);
     }
   }, [id, auth && auth.user?.username, chatRecipients]);
+
+  useEffect(() => {
+    if (uploadData instanceof Blob) {
+      const objURL = URL.createObjectURL(uploadData);
+      setPreviewURL(objURL);
+
+      return () => {
+        URL.revokeObjectURL(objURL);
+      };
+    }
+  }, [uploadData]);
 
   if (auth && !auth.user?.id) {
     return (
@@ -191,9 +206,18 @@ function Chat() {
 
         <div className="input-container">
           <label className="textarea-label">
+            {previewURL && (
+              <PreviewPhoto
+                url={previewURL}
+                setPreviewURL={setPreviewURL}
+                setUploadData={setUploadData}
+                setViewPhoto={setViewPhoto}
+              />
+            )}
             <textarea
-              placeholder="message"
+              placeholder={previewURL ? "" : "message"}
               rows={1}
+              style={{ height: previewURL ? "80px" : "initial" }}
               name="messageBody"
               value={messageBody}
               onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
@@ -206,10 +230,14 @@ function Chat() {
                 type="file"
                 onChange={(e) => {
                   setUploadData(e.target.files && e.target.files[0]);
+                  e.target.value = "";
                 }}
               />
             </div>
           </label>
+          {previewURL && viewPhoto && (
+            <ViewPhoto photoURL={previewURL} setViewPhoto={setViewPhoto} />
+          )}
           <button
             className="send-icon"
             onClick={() => {

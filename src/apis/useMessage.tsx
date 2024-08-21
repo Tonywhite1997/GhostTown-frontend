@@ -39,6 +39,8 @@ function useMessage() {
         setMessageBody("");
         setIsSendingMessage(false);
       } catch (err) {
+        console.log(err);
+
         setIsSendingMessage(false);
         toast("not sent");
       }

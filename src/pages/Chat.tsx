@@ -228,6 +228,7 @@ function Chat() {
               <FaImage className="upload-icon" />
               <input
                 type="file"
+                accept="image/jpeg, image/png, image/gif, image/webp"
                 onChange={(e) => {
                   setUploadData(e.target.files && e.target.files[0]);
                   e.target.value = "";

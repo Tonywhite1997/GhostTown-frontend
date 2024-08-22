@@ -15,8 +15,9 @@ const ChatMessage = ({
   const [viewPhoto, setViewPhoto] = useState<boolean>(false);
   const [photoURL, setPhotoURL] = useState<string>("");
   const endChatRef = useRef<HTMLDivElement | null>(null);
-  const groupedMessages = groupMessagesByDate(messages);
   const [isImageLoading, setIsImageLoading] = useState(true);
+
+  const groupedMessages = groupMessagesByDate(messages);
 
   function handleImageLoad() {
     setIsImageLoading(false);
@@ -30,10 +31,10 @@ const ChatMessage = ({
 
   return (
     <div className="chat-box">
-      {Object.entries(groupedMessages).map(([date, msgs]) => (
-        <div key={date} className="message-group">
-          <h3 className="date-heading">{date}</h3>
-          {msgs.map((msg) => (
+      {Object.entries(groupedMessages).map(([, data]) => (
+        <div key={data.date} className="message-group">
+          <h3 className="date-heading">{data.date}</h3>
+          {data.msgs.map((msg) => (
             <div
               key={msg.id}
               className={`message-container ${

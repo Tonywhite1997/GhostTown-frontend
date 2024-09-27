@@ -19,11 +19,12 @@ import ViewPhoto from "./ViewPhoto";
 function Chat() {
   const [messageBody, setMessageBody] = useState<string>("");
   const [uploadData, setUploadData] = useState<any>();
-  const [previewURL, setPreviewURL] = useState<string | null>(null);
+  const [previewURL, setPreviewURL] = useState<string>("");
   const [viewPhoto, setViewPhoto] = useState<boolean>(false);
 
   function getMessageBody(e: ChangeEvent<HTMLTextAreaElement>) {
-    setMessageBody(e.target.value);
+    const { value } = e.target;
+    setMessageBody(value);
   }
 
   const {
@@ -76,10 +77,10 @@ function Chat() {
   }, [id, auth && auth.user?.id, isFetching]);
 
   useEffect(() => {
-    if (id && auth && auth.user?.username && chatRecipients.length > 0) {
+    if (id && auth && auth.user?.username) {
       getChat(id);
     }
-  }, [id, auth && auth.user?.username, chatRecipients]);
+  }, [id, auth && auth.user?.username]);
 
   useEffect(() => {
     if (uploadData instanceof Blob) {
@@ -142,6 +143,11 @@ function Chat() {
                   ></div>
                 </div>
                 <div className="message-details-container">
+                  {recipient.unread_count > 0 &&
+                    auth &&
+                    recipient.lastAuthor !== auth.user?.id && (
+                      <small className="status">new</small>
+                    )}
                   <p>{recipient.username}</p>
                   <div className="last-message-div">
                     <p className="last-message">
@@ -241,16 +247,18 @@ function Chat() {
           )}
           <button
             className="send-icon"
-            onClick={() => {
+            onClick={() =>
               id &&
-                sendMessage(
-                  id,
-                  messageBody,
-                  setMessageBody,
-                  setMessages,
-                  uploadData
-                );
-            }}
+              sendMessage(
+                id,
+                messageBody,
+                setUploadData,
+                setPreviewURL,
+                setMessageBody,
+                setMessages,
+                uploadData
+              )
+            }
             disabled={isSendingMessage}
           >
             {isSendingMessage && <Loader color="white" />}

@@ -25,6 +25,31 @@ const parseDateString = (dateString: string): Date => {
   }
 };
 
+export const groupedMessage = (messages: MessageType[]) => {
+  const grouped = messages?.reduce<Record<string, MessageType[]>>(
+    (acc, msg) => {
+      const date = parseISO(msg.created_at);
+      const dateString = isToday(date)
+        ? "Today"
+        : isYesterday(date)
+        ? "Yesterday"
+        : isThisMonth(date)
+        ? format(date, "MMMM d")
+        : isThisYear(date)
+        ? format(date, "MMMM")
+        : format(date, "MMMM yyyy");
+
+      if (!acc[dateString]) {
+        acc[dateString] = [];
+      }
+      acc[dateString].push(msg);
+      return acc;
+    },
+    {}
+  );
+  return grouped;
+};
+
 export const groupMessagesByDate = (messages: MessageType[]) => {
   const grouped = messages.reduce<Record<string, MessageType[]>>((acc, msg) => {
     const date = parseISO(msg.created_at);

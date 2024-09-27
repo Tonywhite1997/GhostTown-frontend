@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { format, parseISO } from "date-fns";
 import { MessageType } from "../types/types";
-import { groupMessagesByDate } from "../utils/formatDate";
+import { groupedMessage } from "../utils/formatDate";
 import ViewPhoto from "../pages/ViewPhoto";
 import Loader from "./Loader";
 
@@ -17,7 +17,7 @@ const ChatMessage = ({
   const endChatRef = useRef<HTMLDivElement | null>(null);
   const [isImageLoading, setIsImageLoading] = useState(true);
 
-  const groupedMessages = groupMessagesByDate(messages);
+  const groupedMessages = groupedMessage(messages || []);
 
   function handleImageLoad() {
     setIsImageLoading(false);
@@ -31,10 +31,10 @@ const ChatMessage = ({
 
   return (
     <div className="chat-box">
-      {Object.entries(groupedMessages).map(([, data]) => (
-        <div key={data.date} className="message-group">
-          <h3 className="date-heading">{data.date}</h3>
-          {data.msgs.map((msg) => (
+      {Object.entries(groupedMessages).map(([date, data]) => (
+        <div key={date} className="message-group">
+          <h3 className="date-heading">{date}</h3>
+          {data.map((msg) => (
             <div
               key={msg.id}
               className={`message-container ${

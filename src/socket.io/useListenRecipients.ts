@@ -9,20 +9,14 @@ function useListenRecipients(
   useEffect(() => {
     if (!socket) return;
 
-    const handleNewRecipient = (recipient: RecipientType) => {
-      setChatRecipients((prevRecipients: RecipientType[]) => {
-        if (prevRecipients.some((x) => x.id === recipient.id)) {
-          return prevRecipients;
-        } else {
-          return [...prevRecipients, recipient];
-        }
-      });
+    const handleChatRecipients = (chatRecipients: RecipientType[]) => {
+      setChatRecipients(chatRecipients);
     };
 
-    socket.on("newRecipient", handleNewRecipient);
+    socket.on("chatRecipients", handleChatRecipients);
 
     return () => {
-      socket.off("newRecipient", handleNewRecipient);
+      socket.off("chatRecipients", handleChatRecipients);
     };
   }, [setChatRecipients, socket]);
 }

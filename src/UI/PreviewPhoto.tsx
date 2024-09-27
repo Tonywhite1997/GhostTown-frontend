@@ -8,12 +8,12 @@ function PreviewPhoto({
   setViewPhoto,
 }: {
   url: string;
-  setPreviewURL: Dispatch<SetStateAction<string | null>>;
+  setPreviewURL: Dispatch<SetStateAction<string>>;
   setUploadData: Dispatch<SetStateAction<Blob | null>>;
   setViewPhoto: Dispatch<SetStateAction<boolean>>;
 }) {
   function setToDefault() {
-    setPreviewURL(null);
+    setPreviewURL("");
     setUploadData(null);
   }
 

@@ -36,6 +36,17 @@
             position: relative;
             margin-bottom: .5em;
 
+            .status {
+                position: absolute;
+                right: 0;
+                background-color: #32a852;
+                width: 50px;
+                border-radius: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
             .message-details-container {
                 width: calc(100% - 50px);
 
@@ -283,8 +294,8 @@
         .input-container {
             width: 100%;
             display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
+            justify-content: center;
+            align-items: center;
             gap: .2em;
 
             .textarea-label {
@@ -346,6 +357,7 @@
                     min-height: 40px;
                     max-height: 120px;
                     padding: .5em .5em;
+                    padding-right: 30px;
                     border-radius: .5em;
                     resize: none;
                     overflow-y: auto;

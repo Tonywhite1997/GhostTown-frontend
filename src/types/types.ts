@@ -24,6 +24,7 @@ export type RecipientType = {
   unread_count: number;
   last_message: string;
   last_message_timeStamp: string;
+  lastAuthor: string;
 };
 
 export type MessageType = {

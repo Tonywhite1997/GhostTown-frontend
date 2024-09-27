@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useContext } from "react";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../contexts/AuthContext";
-import { MessageType } from "../types/types";
+import { MessageType, RecipientType } from "../types/types";
 import { authContext } from "../contexts/AuthContext";
 
 function useMessage() {
@@ -14,7 +14,9 @@ function useMessage() {
 
   async function sendMessage(
     userId: string | undefined,
-    messageBody: string | undefined,
+    messageBody: string,
+    setUploadData: React.Dispatch<React.SetStateAction<Blob | null>>,
+    setPreviewURL: React.Dispatch<React.SetStateAction<string>>,
     setMessageBody: React.Dispatch<React.SetStateAction<string>>,
     setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
     uploadData?: any | undefined
@@ -34,9 +36,12 @@ function useMessage() {
 
         if (auth?.user?.id === data.authorID) {
           setMessages((prev) => [...prev, data]);
+          console.log("hello");
         }
 
         setMessageBody("");
+        setUploadData(null);
+        setPreviewURL("");
         setIsSendingMessage(false);
       } catch (err) {
         console.log(err);

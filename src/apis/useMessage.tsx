@@ -19,6 +19,7 @@ function useMessage() {
     setPreviewURL: React.Dispatch<React.SetStateAction<string>>,
     setMessageBody: React.Dispatch<React.SetStateAction<string>>,
     setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>,
+    setChatRecipients: React.Dispatch<React.SetStateAction<RecipientType[]>>,
     uploadData?: any | undefined
   ) {
     async function sendAPI(payload: any, CType: string) {
@@ -33,6 +34,22 @@ function useMessage() {
             },
           }
         );
+
+        //updating the last message and last message timestamp for the author
+
+        setChatRecipients((prev: RecipientType[]) => {
+          return prev.map((recipient) => {
+            if (recipient.id === userId) {
+              return {
+                ...recipient,
+                last_message: messageBody,
+                last_message_timeStamp: new Date(Date.now()).toISOString(),
+              } as RecipientType;
+            } else {
+              return recipient;
+            }
+          });
+        });
 
         if (auth?.user?.id === data.authorID) {
           setMessages((prev) => [...prev, data]);

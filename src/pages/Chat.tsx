@@ -15,6 +15,8 @@ import axios from "axios";
 import { lastMessageDate } from "../utils/formatDate";
 import PreviewPhoto from "../UI/PreviewPhoto";
 import ViewPhoto from "./ViewPhoto";
+import { RecipientType } from "../types/types";
+import { toast } from "react-toastify";
 
 function Chat() {
   const [messageBody, setMessageBody] = useState<string>("");
@@ -67,14 +69,19 @@ function Chat() {
   }, [id, auth && auth.user?.username]);
 
   async function readMessage() {
-    return await axios.patch(`${BASE_URL}/chats/${id}`);
+    try {
+      await axios.patch(`${BASE_URL}/chats/${id}`);
+      getChatsRecipients();
+    } catch (err) {
+      console.error("error reading message");
+    }
   }
 
   useEffect(() => {
     if (id && !isFetching && auth && auth.user?.id) {
       readMessage();
     }
-  }, [id, auth && auth.user?.id, isFetching]);
+  }, [id, auth && auth.user?.id, isFetching, messages]);
 
   useEffect(() => {
     if (id && auth && auth.user?.username) {
@@ -256,6 +263,7 @@ function Chat() {
                 setPreviewURL,
                 setMessageBody,
                 setMessages,
+                setChatRecipients,
                 uploadData
               )
             }

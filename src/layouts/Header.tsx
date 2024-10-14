@@ -2,12 +2,9 @@ import { FaMessage, FaUser, FaUserGroup } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useChat from "../apis/useChat";
 
 function Header() {
   const location = useLocation();
-
-  // const { getChatsRecipients } = useChat();
 
   const [currPage, setCurrPage] = useState<string>(location.pathname);
 
@@ -36,7 +33,6 @@ function Header() {
         <Link className="nav-link" to="/chats">
           <FaMessage
             className={currPage === "/chats" ? "active-icon" : "icon"}
-            // onClick={getChatsRecipients}
           />
         </Link>
 

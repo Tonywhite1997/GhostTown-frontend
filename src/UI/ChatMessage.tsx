@@ -55,6 +55,7 @@ const ChatMessage = ({
                   <div className="photo-wrapper">
                     {isImageLoading && <Loader />}
                     <img
+                      alt="new from sender"
                       src={msg.photoURL}
                       onClick={() => {
                         setViewPhoto(true);

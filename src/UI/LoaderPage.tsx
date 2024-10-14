@@ -1,4 +1,3 @@
-import Header from "../layouts/Header";
 import { PropagateLoader } from "react-spinners";
 
 function LoaderPage() {

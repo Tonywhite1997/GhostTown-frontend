@@ -46,7 +46,11 @@ function Feed() {
             >
               {isImageLoading && <Loader color="grey" />}
               <div className="img-container">
-                <img src={feed.profilePicURL} onLoad={handleImageLoad} />
+                <img
+                  src={feed.profilePicURL}
+                  alt="available users profile"
+                  onLoad={handleImageLoad}
+                />
               </div>
 
               <p>{feed.username}</p>

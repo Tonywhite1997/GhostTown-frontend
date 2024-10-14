@@ -18,6 +18,7 @@ function Me() {
         <img
           src={auth.user?.profilePicURL}
           onLoad={() => setIsImageLoading(false)}
+          alt="my profile"
         />
       </div>
       <div className="me-details">

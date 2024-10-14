@@ -15,8 +15,6 @@ import axios from "axios";
 import { lastMessageDate } from "../utils/formatDate";
 import PreviewPhoto from "../UI/PreviewPhoto";
 import ViewPhoto from "./ViewPhoto";
-import { RecipientType } from "../types/types";
-import { toast } from "react-toastify";
 
 function Chat() {
   const [messageBody, setMessageBody] = useState<string>("");
@@ -140,7 +138,7 @@ function Chat() {
                 className="recipient"
               >
                 <div className="profile-pic">
-                  <img src={recipient.profilePicURL} />
+                  <img src={recipient.profilePicURL} alt="user profile" />
                   <div
                     className={
                       onlineUsers.includes(recipient.id)
@@ -188,7 +186,7 @@ function Chat() {
         {!isFetchingUser && id && auth && auth.user?.id && (
           <div className="recipient-div">
             <div className="profile-pic">
-              <img src={user?.profilePicURL} />
+              <img src={user?.profilePicURL} alt="friend's profile" />
             </div>
             <div>
               <p>{user?.username}</p>

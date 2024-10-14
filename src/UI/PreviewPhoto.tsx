@@ -20,6 +20,7 @@ function PreviewPhoto({
   return (
     <div className="photo-preview">
       <img
+        alt="selected item"
         src={url}
         onClick={() => {
           setViewPhoto(true);

@@ -10,7 +10,8 @@ function Header() {
 
   const page = location.pathname;
 
-  const regex = /^\/[^\/]+/;
+  const regex = /^\/[^/]+/;
+
   const match = page.match(regex);
 
   useEffect(() => {

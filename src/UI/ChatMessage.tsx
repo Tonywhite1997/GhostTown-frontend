@@ -59,9 +59,7 @@ const ChatMessage = ({
                       src={msg.photoURL}
                       onClick={() => {
                         setViewPhoto(true);
-                        {
-                          msg.photoURL && setPhotoURL(msg.photoURL);
-                        }
+                        msg.photoURL && setPhotoURL(msg.photoURL);
                       }}
                       onLoad={handleImageLoad}
                     />
